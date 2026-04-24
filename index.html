@@ -272,15 +272,22 @@ let currentRound = 0;
 let maxPoints = 19;
 let history = [];
 
+function getSavedNames() {
+  const inputs = document.querySelectorAll('#playersInputs input');
+  return Array.from(inputs).map(input => input.value);
+}
+
 function renderPlayerInputs() {
   const count = parseInt(document.getElementById('playersCount').value);
+  const savedNames = getSavedNames();
   const box = document.getElementById('playersInputs');
   box.innerHTML = '<h2>Имена участников</h2>';
 
   for (let i = 1; i <= count; i++) {
+    const name = savedNames[i - 1] || `Игрок ${i}`;
     box.innerHTML += `
       <label>Игрок ${i}</label>
-      <input type="text" id="player${i}" value="Игрок ${i}" />
+      <input type="text" id="player${i}" value="${name}" />
     `;
   }
 }
