@@ -6,31 +6,36 @@
   <title>Padel Tournament</title>
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      background: linear-gradient(135deg, #eaff7b, #65ffd1 45%, #7b8cff);
       color: #111;
       padding: 14px;
+      min-height: 100vh;
     }
 
     .container {
-      max-width: 520px;
+      max-width: 560px;
       margin: 0 auto;
-      background: #fff;
-      border-radius: 18px;
+      background: rgba(255,255,255,0.94);
+      border-radius: 24px;
       padding: 18px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    }
-
-    h1, h2 {
-      margin-top: 0;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
     }
 
     h1 {
-      font-size: 24px;
+      font-size: 28px;
       text-align: center;
-      margin-bottom: 20px;
+      margin: 4px 0 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #555;
+      margin-bottom: 18px;
+      font-size: 14px;
     }
 
     h2 {
@@ -47,74 +52,156 @@
 
     input, select, button {
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       border: 1px solid #ddd;
-      border-radius: 12px;
+      border-radius: 14px;
       font-size: 16px;
       margin-bottom: 12px;
+    }
+
+    input, select {
+      background: white;
     }
 
     button {
       background: #111;
       color: white;
       border: none;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 5px 0 #000;
+      transform: translateY(0);
+    }
+
+    button:active {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 #000;
+    }
+
+    .secondary {
+      background: #fff;
+      color: #111;
+      border: 2px solid #111;
+      box-shadow: none;
+    }
+
+    .danger {
+      background: #ff3b3b;
+      box-shadow: 0 5px 0 #a90000;
     }
 
     .hidden { display: none; }
 
-    .match {
-      border: 1px solid #eee;
-      border-radius: 14px;
+    .top-panel {
+      background: #111;
+      color: white;
+      border-radius: 18px;
       padding: 14px;
       margin-bottom: 14px;
-      background: #fafafa;
+      text-align: center;
+    }
+
+    .top-panel strong {
+      font-size: 20px;
+    }
+
+    .rest {
+      background: #fff2a8;
+      border: 2px dashed #111;
+      border-radius: 14px;
+      padding: 10px;
+      margin-bottom: 14px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .match {
+      border: 2px solid #111;
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 14px;
+      background: #fff;
+      box-shadow: 5px 5px 0 #111;
     }
 
     .team {
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 8px;
+      line-height: 1.35;
     }
 
     .score-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
       align-items: center;
+      margin-top: 10px;
     }
 
-    .score-row input {
+    .score-card {
+      background: #f7f7f7;
+      border-radius: 14px;
+      padding: 10px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .score-card span {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #555;
+      text-align: center;
+    }
+
+    .score-card input {
       margin: 0;
       text-align: center;
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .buttons-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    th {
+      background: #111;
+      color: white;
     }
 
     th, td {
-      padding: 10px 6px;
+      padding: 11px 8px;
       border-bottom: 1px solid #eee;
       text-align: left;
       font-size: 14px;
     }
 
-    .positive {
-      color: green;
-      font-weight: 700;
+    tr:nth-child(even) td {
+      background: #fafafa;
     }
 
-    .negative {
-      color: red;
-      font-weight: 700;
-    }
+    .positive { color: green; font-weight: 900; }
+    .negative { color: red; font-weight: 900; }
+    .neutral { font-weight: 900; }
 
-    .neutral {
-      font-weight: 700;
+    .small {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.35;
+      margin-top: -4px;
+      margin-bottom: 12px;
     }
   </style>
 </head>
@@ -122,7 +209,8 @@
 <div class="container">
 
   <div id="setupScreen">
-    <h1>Padel Tournament</h1>
+    <h1>🎾 Padel Meet</h1>
+    <div class="subtitle">Быстрый турнир, пары, раунды и счет</div>
 
     <h2>Настройка турнира</h2>
 
@@ -135,21 +223,32 @@
       <option value="16">16</option>
     </select>
 
-    <label>Игра до (сумма очков)</label>
+    <label>Игра до суммы очков</label>
     <input type="number" id="maxPoints" value="19" min="1" />
+    <div class="small">Например: если игра до 19, вводишь 10 у одной пары — второй автоматически станет 9.</div>
 
     <div id="playersInputs"></div>
 
-    <button onclick="startTournament()">Начать турнир</button>
+    <button onclick="startTournament()">🚀 Начать турнир</button>
   </div>
 
   <div id="tournamentScreen" class="hidden">
-    <h1>Турнир</h1>
+    <h1>🎾 Турнир</h1>
 
-    <h2 id="roundTitle">Раунд 1</h2>
+    <div class="top-panel">
+      <div id="roundTitle"><strong>Раунд 1</strong></div>
+      <div id="roundInfo"></div>
+    </div>
+
+    <div id="restArea"></div>
     <div id="matchArea"></div>
 
-    <button onclick="nextRound()">Следующий раунд</button>
+    <button onclick="nextRound()">✅ Сохранить раунд и перейти дальше</button>
+
+    <div class="buttons-row">
+      <button class="secondary" onclick="undoRound()">↩️ Отменить раунд</button>
+      <button class="danger" onclick="restartTournament()">🔄 Начать заново</button>
+    </div>
 
     <h2>Итоговая таблица</h2>
     <table>
@@ -168,9 +267,10 @@
 <script>
 let players = [];
 let scores = {};
-let schedule = [];
+let rounds = [];
 let currentRound = 0;
 let maxPoints = 19;
+let history = [];
 
 function renderPlayerInputs() {
   const count = parseInt(document.getElementById('playersCount').value);
@@ -186,34 +286,69 @@ function renderPlayerInputs() {
 }
 
 function shuffle(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  return arr;
+  return copy;
 }
 
-function generateSchedule(list) {
-  let rounds = [];
-  let copy = [...list];
+function pairKey(a, b) {
+  return [a, b].sort().join(' + ');
+}
 
-  for (let r = 0; r < 20; r++) {
-    shuffle(copy);
-    let matches = [];
+function generateSmartRound(roundIndex) {
+  const playedPairs = new Set();
 
-    for (let i = 0; i < copy.length; i += 4) {
-      if (copy[i+3]) {
-        matches.push([
-          [copy[i], copy[i+1]],
-          [copy[i+2], copy[i+3]]
-        ]);
-      }
+  rounds.forEach(round => {
+    round.matches.forEach(match => {
+      playedPairs.add(pairKey(match.team1[0], match.team1[1]));
+      playedPairs.add(pairKey(match.team2[0], match.team2[1]));
+    });
+  });
+
+  let bestRound = null;
+  let bestScore = -9999;
+
+  for (let attempt = 0; attempt < 300; attempt++) {
+    let list = shuffle(players);
+    let rest = null;
+
+    if (list.length % 4 !== 0) {
+      rest = list.pop();
     }
 
-    rounds.push(matches);
+    const matches = [];
+    let score = 0;
+
+    for (let i = 0; i < list.length; i += 4) {
+      if (!list[i + 3]) break;
+
+      const team1 = [list[i], list[i + 1]];
+      const team2 = [list[i + 2], list[i + 3]];
+
+      if (!playedPairs.has(pairKey(team1[0], team1[1]))) score += 5;
+      if (!playedPairs.has(pairKey(team2[0], team2[1]))) score += 5;
+
+      matches.push({ team1, team2 });
+    }
+
+    if (rest) score += roundIndex % players.length === players.indexOf(rest) ? 1 : 0;
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestRound = { matches, rest };
+    }
   }
 
-  return rounds;
+  return bestRound;
+}
+
+function ensureRoundExists() {
+  while (rounds.length <= currentRound) {
+    rounds.push(generateSmartRound(rounds.length));
+  }
 }
 
 function startTournament() {
@@ -222,6 +357,9 @@ function startTournament() {
 
   players = [];
   scores = {};
+  rounds = [];
+  currentRound = 0;
+  history = [];
 
   for (let i = 1; i <= count; i++) {
     const name = document.getElementById(`player${i}`).value.trim() || `Игрок ${i}`;
@@ -229,8 +367,7 @@ function startTournament() {
     scores[name] = 0;
   }
 
-  schedule = generateSchedule(players);
-  currentRound = 0;
+  ensureRoundExists();
 
   document.getElementById('setupScreen').classList.add('hidden');
   document.getElementById('tournamentScreen').classList.remove('hidden');
@@ -240,24 +377,33 @@ function startTournament() {
 }
 
 function renderRound() {
-  const round = schedule[currentRound];
-  const area = document.getElementById('matchArea');
-  document.getElementById('roundTitle').textContent = `Раунд ${currentRound + 1}`;
+  ensureRoundExists();
 
+  const round = rounds[currentRound];
+  const area = document.getElementById('matchArea');
+  const restArea = document.getElementById('restArea');
+
+  document.getElementById('roundTitle').innerHTML = `<strong>Раунд ${currentRound + 1}</strong>`;
+  document.getElementById('roundInfo').textContent = `Игра до ${maxPoints} очков`;
+
+  restArea.innerHTML = round.rest ? `<div class="rest">😴 Отдыхает: ${round.rest}</div>` : '';
   area.innerHTML = '';
 
-  round.forEach((match, index) => {
-    const team1 = `${match[0][0]} / ${match[0][1]}`;
-    const team2 = `${match[1][0]} / ${match[1][1]}`;
-
+  round.matches.forEach((match, index) => {
     area.innerHTML += `
       <div class="match">
-        <div class="team">Пара 1: ${team1}</div>
-        <div class="team">Пара 2: ${team2}</div>
+        <div class="team">Пара 1: ${match.team1[0]} / ${match.team1[1]}</div>
+        <div class="team">Пара 2: ${match.team2[0]} / ${match.team2[1]}</div>
 
         <div class="score-row">
-          <input type="number" min="0" max="${maxPoints}" id="a_${index}" value="0" oninput="syncScores(${index}, 'a')" />
-          <input type="number" min="0" max="${maxPoints}" id="b_${index}" value="${maxPoints}" oninput="syncScores(${index}, 'b')" />
+          <div class="score-card">
+            <span>Пара 1</span>
+            <input type="number" min="0" max="${maxPoints}" id="a_${index}" value="0" oninput="syncScores(${index}, 'a')" />
+          </div>
+          <div class="score-card">
+            <span>Пара 2</span>
+            <input type="number" min="0" max="${maxPoints}" id="b_${index}" value="${maxPoints}" oninput="syncScores(${index}, 'b')" />
+          </div>
         </div>
       </div>
     `;
@@ -270,6 +416,7 @@ function syncScores(index, source) {
 
   let val = parseInt(source === 'a' ? a.value : b.value) || 0;
   if (val > maxPoints) val = maxPoints;
+  if (val < 0) val = 0;
 
   if (source === 'a') {
     a.value = val;
@@ -281,37 +428,71 @@ function syncScores(index, source) {
 }
 
 function nextRound() {
-  const round = schedule[currentRound];
+  const round = rounds[currentRound];
+  const changes = [];
 
-  round.forEach((match, index) => {
+  round.matches.forEach((match, index) => {
     const scoreA = parseInt(document.getElementById(`a_${index}`).value) || 0;
     const scoreB = parseInt(document.getElementById(`b_${index}`).value) || 0;
 
     if (scoreA > scoreB) {
-      match[0].forEach(player => scores[player] += 1);
-      match[1].forEach(player => scores[player] -= 1);
+      match.team1.forEach(player => changes.push([player, 1]));
+      match.team2.forEach(player => changes.push([player, -1]));
     } else if (scoreB > scoreA) {
-      match[1].forEach(player => scores[player] += 1);
-      match[0].forEach(player => scores[player] -= 1);
+      match.team2.forEach(player => changes.push([player, 1]));
+      match.team1.forEach(player => changes.push([player, -1]));
     }
   });
 
+  changes.forEach(([player, delta]) => {
+    scores[player] += delta;
+  });
+
+  history.push({ roundIndex: currentRound, changes });
   currentRound++;
 
-  if (currentRound >= schedule.length) {
-    schedule.push(...generateSchedule(players));
-  }
-
+  ensureRoundExists();
   renderResults();
   renderRound();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function undoRound() {
+  if (history.length === 0) {
+    alert('Пока нечего отменять');
+    return;
+  }
+
+  const last = history.pop();
+
+  last.changes.forEach(([player, delta]) => {
+    scores[player] -= delta;
+  });
+
+  currentRound = last.roundIndex;
+  renderResults();
+  renderRound();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartTournament() {
+  if (!confirm('Начать турнир заново? Все результаты обнулятся.')) return;
+
+  document.getElementById('tournamentScreen').classList.add('hidden');
+  document.getElementById('setupScreen').classList.remove('hidden');
+
+  players = [];
+  scores = {};
+  rounds = [];
+  currentRound = 0;
+  history = [];
 }
 
 function renderResults() {
   const table = document.getElementById('resultsTable');
   table.innerHTML = '';
 
-  const sorted = Object.entries(scores)
-    .sort((a, b) => b[1] - a[1]);
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
 
   sorted.forEach(([name, score]) => {
     let cls = 'neutral';
