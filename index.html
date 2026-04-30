@@ -3,37 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Padel Tournament</title>
+  <title>Padel Counter</title>
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #eaff7b, #65ffd1 45%, #7b8cff);
-      color: #111;
+      color: #f4f4f4;
       padding: 14px;
       min-height: 100vh;
+      background-color: #0f1115;
+      background-image:
+        radial-gradient(circle at 12px 12px, rgba(255,255,255,0.045) 2px, transparent 2px),
+        radial-gradient(circle at 44px 36px, rgba(255,255,255,0.035) 1.5px, transparent 1.5px),
+        linear-gradient(45deg, transparent 47%, rgba(255,255,255,0.025) 48%, rgba(255,255,255,0.025) 52%, transparent 53%);
+      background-size: 64px 64px, 64px 64px, 88px 88px;
+    }
+
+    .language-widget {
+      position: fixed;
+      right: 14px;
+      top: 14px;
+      z-index: 999;
+    }
+
+    .language-toggle {
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      margin: 0;
+      border-radius: 50%;
+      background: #11141a;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+      font-size: 22px;
+      line-height: 46px;
+    }
+
+    .language-menu {
+      position: absolute;
+      right: 0;
+      top: 54px;
+      width: 190px;
+      background: #171b23;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+    }
+
+    .language-menu button {
+      width: 100%;
+      background: transparent;
+      color: #f4f4f4;
+      box-shadow: none;
+      border: none;
+      text-align: left;
+      margin: 0;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .language-menu button:active {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .language-menu button:hover {
+      background: rgba(255,255,255,0.07);
     }
 
     .container {
       max-width: 560px;
       margin: 0 auto;
-      background: rgba(255,255,255,0.94);
+      background: rgba(24, 27, 34, 0.96);
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 24px;
       padding: 18px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4);
     }
 
     h1 {
       font-size: 28px;
       text-align: center;
       margin: 4px 0 6px;
+      padding: 0 44px;
     }
 
     .subtitle {
       text-align: center;
-      color: #555;
+      color: #aeb4c0;
       margin-bottom: 18px;
       font-size: 14px;
     }
@@ -48,80 +110,92 @@
       font-size: 14px;
       font-weight: 700;
       margin-bottom: 6px;
+      color: #dce1ea;
     }
 
     input, select, button {
       width: 100%;
       padding: 13px;
-      border: 1px solid #ddd;
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 14px;
       font-size: 16px;
       margin-bottom: 12px;
     }
 
     input, select {
-      background: white;
+      background: #11141a;
+      color: #f4f4f4;
+      outline: none;
     }
 
     button {
-      background: #111;
-      color: white;
+      background: #25d366;
+      color: #07130c;
       border: none;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 5px 0 #000;
+      box-shadow: 0 5px 0 #128c43;
       transform: translateY(0);
     }
 
     button:active {
       transform: translateY(4px);
-      box-shadow: 0 1px 0 #000;
+      box-shadow: 0 1px 0 #128c43;
     }
 
     .secondary {
-      background: #fff;
-      color: #111;
-      border: 2px solid #111;
+      background: #252a35;
+      color: #f4f4f4;
+      border: 1px solid rgba(255,255,255,0.14);
       box-shadow: none;
     }
 
     .danger {
-      background: #ff3b3b;
-      box-shadow: 0 5px 0 #a90000;
+      background: #ff4d4d;
+      color: white;
+      box-shadow: 0 5px 0 #9c2020;
+    }
+
+    .finish {
+      background: #ffd166;
+      color: #191100;
+      box-shadow: 0 5px 0 #b88719;
+      font-size: 18px;
+      padding: 16px;
     }
 
     .hidden { display: none; }
 
     .top-panel {
-      background: #111;
+      background: #11141a;
       color: white;
+      border: 1px solid rgba(255,255,255,0.08);
       border-radius: 18px;
       padding: 14px;
       margin-bottom: 14px;
       text-align: center;
     }
 
-    .top-panel strong {
-      font-size: 20px;
-    }
+    .top-panel strong { font-size: 20px; }
 
     .rest {
-      background: #fff2a8;
-      border: 2px dashed #111;
+      background: rgba(255, 209, 102, 0.12);
+      border: 1px dashed rgba(255, 209, 102, 0.75);
+      color: #ffd166;
       border-radius: 14px;
       padding: 10px;
       margin-bottom: 14px;
-      font-weight: 700;
+      font-weight: 800;
       text-align: center;
     }
 
     .match {
-      border: 2px solid #111;
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 18px;
       padding: 14px;
       margin-bottom: 14px;
-      background: #fff;
-      box-shadow: 5px 5px 0 #111;
+      background: #171b23;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     }
 
     .team {
@@ -139,10 +213,10 @@
     }
 
     .score-card {
-      background: #f7f7f7;
+      background: #11141a;
       border-radius: 14px;
       padding: 10px;
-      border: 1px solid #e5e5e5;
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
     .score-card span {
@@ -150,7 +224,7 @@
       font-size: 12px;
       font-weight: 700;
       margin-bottom: 6px;
-      color: #555;
+      color: #aeb4c0;
       text-align: center;
     }
 
@@ -177,63 +251,87 @@
     }
 
     th {
-      background: #111;
-      color: white;
+      background: #0d0f14;
+      color: #e8edf6;
     }
 
     th, td {
       padding: 11px 8px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
       text-align: left;
       font-size: 14px;
     }
 
-    tr:nth-child(even) td {
-      background: #fafafa;
-    }
+    tr:nth-child(even) td { background: rgba(255,255,255,0.025); }
 
-    .positive { color: green; font-weight: 900; }
-    .negative { color: red; font-weight: 900; }
-    .neutral { font-weight: 900; }
+    .positive { color: #45e07f; font-weight: 900; }
+    .negative { color: #ff6666; font-weight: 900; }
+    .neutral { font-weight: 900; color: #e8edf6; }
+
+    .medal-row td {
+      font-size: 16px;
+      font-weight: 900;
+    }
 
     .small {
       font-size: 12px;
-      color: #666;
+      color: #aeb4c0;
       line-height: 1.35;
       margin-top: -4px;
       margin-bottom: 12px;
     }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: #aeb4c0;
+    }
+
+    .footer a {
+      color: #25d366;
+      text-decoration: none;
+      font-weight: 800;
+    }
   </style>
 </head>
 <body>
+<div class="language-widget">
+  <button class="language-toggle" onclick="toggleLanguageMenu()" id="languageFlag">🇷🇺</button>
+  <div class="language-menu hidden" id="languageMenu">
+    <button onclick="setLanguage('ru')">🇷🇺 Русский</button>
+    <button onclick="setLanguage('en')">🇬🇧 English</button>
+    <button onclick="setLanguage('fr')">🇫🇷 Français</button>
+    <button onclick="setLanguage('it')">🇮🇹 Italiano</button>
+    <button onclick="setLanguage('es')">🇪🇸 Español</button>
+    <button onclick="setLanguage('de')">🇩🇪 Deutsch</button>
+    <button onclick="setLanguage('pt')">🇵🇹 Português</button>
+  </div>
+</div>
+
 <div class="container">
 
   <div id="setupScreen">
-    <h1>🎾 Padel Meet</h1>
-    <div class="subtitle">Быстрый турнир, пары, раунды и счет</div>
+    <h1 data-i18n="appTitle">🎾 Padel Counter</h1>
+    <div class="subtitle" data-i18n="subtitle">Быстрый турнир, пары, раунды и счет</div>
 
-    <h2>Настройка турнира</h2>
+    <h2 data-i18n="setupTitle">Настройка турнира</h2>
 
-    <label>Количество участников</label>
-    <select id="playersCount" onchange="renderPlayerInputs()">
-      <option value="4">4</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="12">12</option>
-      <option value="16">16</option>
-    </select>
+    <label data-i18n="playersCount">Количество участников</label>
+    <input type="number" id="playersCount" value="4" min="4" max="20" inputmode="numeric" pattern="[0-9]*" oninput="handlePlayersCountInput()" />
+    <div class="small" data-i18n="playersCountHint">Минимум 4, максимум 20 участников.</div>
 
-    <label>Игра до суммы очков</label>
+    <label data-i18n="maxPointsLabel">Игра до суммы очков</label>
     <input type="number" id="maxPoints" value="19" min="1" />
-    <div class="small">Например: если игра до 19, вводишь 10 у одной пары — второй автоматически станет 9.</div>
+    <div class="small" data-i18n="hint">Например: если игра до 19, вводишь 10 у одной пары — второй автоматически станет 9.</div>
 
     <div id="playersInputs"></div>
 
-    <button onclick="startTournament()">🚀 Начать турнир</button>
+    <button onclick="startTournament()" data-i18n="startTournament">Начать турнир</button>
   </div>
 
   <div id="tournamentScreen" class="hidden">
-    <h1>🎾 Турнир</h1>
+    <h1 data-i18n="tournamentTitle">🎾 Турнир</h1>
 
     <div class="top-panel">
       <div id="roundTitle"><strong>Раунд 1</strong></div>
@@ -243,53 +341,167 @@
     <div id="restArea"></div>
     <div id="matchArea"></div>
 
-    <button onclick="nextRound()">✅ Сохранить раунд и перейти дальше</button>
+    <button id="mainNextButton" onclick="nextRound()" data-i18n="saveNext">Сохранить раунд и перейти дальше</button>
+    <button id="finishButton" class="finish hidden" onclick="finishTournament()" data-i18n="finishTournament">🏁 Завершить турнир и перейти к результату</button>
+    <button id="extraNextButton" class="secondary hidden" onclick="nextRound()" data-i18n="nextTour">Следующий тур</button>
 
     <div class="buttons-row">
-      <button class="secondary" onclick="undoRound()">↩️ Отменить раунд</button>
-      <button class="danger" onclick="restartTournament()">🔄 Начать заново</button>
+      <button class="secondary" onclick="undoRound()" data-i18n="undoRound">↩️ Отменить раунд</button>
+      <button class="danger" onclick="restartTournamentConfirm()" data-i18n="restart">🔄 Начать заново</button>
     </div>
 
-    <h2>Итоговая таблица</h2>
+    <h2 data-i18n="currentTable">Текущая таблица</h2>
     <table>
       <thead>
         <tr>
-          <th>Игрок</th>
-          <th>Очки</th>
+          <th data-i18n="player">Игрок</th>
+          <th data-i18n="points">Очки</th>
         </tr>
       </thead>
       <tbody id="resultsTable"></tbody>
     </table>
   </div>
 
+  <div id="finalScreen" class="hidden">
+    <h1 data-i18n="finalTitle">🏆 Итоги турнира</h1>
+    <div class="subtitle" data-i18n="finalSubtitle">Финальная таблица результатов</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th data-i18n="place">Место</th>
+          <th data-i18n="player">Игрок</th>
+          <th data-i18n="points">Очки</th>
+        </tr>
+      </thead>
+      <tbody id="finalTable"></tbody>
+    </table>
+
+    <button class="danger" onclick="restartTournamentConfirm()" data-i18n="newTournament">Новый турнир</button>
+  </div>
+
+  <div class="footer">
+    Created by <a href="https://t.me/josan_evgeniy" target="_blank">@josan_evgeniy</a>
+  </div>
+
 </div>
 
 <script>
+const translations = {
+  ru: {
+    langCode: 'ru', flag: '🇷🇺', appTitle: '🎾 Padel Counter', subtitle: 'Быстрый турнир, пары, раунды и счет', setupTitle: 'Настройка турнира', playersCount: 'Количество участников', playersCountHint: 'Минимум 4, максимум 20 участников.', maxPointsLabel: 'Игра до суммы очков', hint: 'Например: если игра до 19, вводишь 10 у одной пары — второй автоматически станет 9.', startTournament: 'Начать турнир', tournamentTitle: '🎾 Турнир', finalTitle: '🏆 Итоги турнира', finalSubtitle: 'Финальная таблица результатов', place: 'Место', player: 'Игрок', points: 'Очки', currentTable: 'Текущая таблица', saveNext: 'Сохранить раунд и перейти дальше', finishTournament: '🏁 Завершить турнир и перейти к результату', nextTour: 'Следующий тур', undoRound: '↩️ Отменить раунд', restart: '🔄 Начать заново', newTournament: 'Новый турнир', namesTitle: 'Имена участников', playerName: 'Игрок', round: 'Раунд', gameTo: 'Игра до', base: 'База', rounds: 'раундов', resting: '😴 Отдыхает', pair1: 'Пара 1', pair2: 'Пара 2', nothingToUndo: 'Пока нечего отменять', restartConfirm: 'Вы уверены, что хотите начать новый турнир? Все текущие результаты обнулятся.'
+  },
+  en: {
+    langCode: 'en', flag: '🇬🇧', appTitle: '🎾 Padel Counter', subtitle: 'Quick tournament, pairs, rounds and scoring', setupTitle: 'Tournament setup', playersCount: 'Number of players', playersCountHint: 'Minimum 4, maximum 20 players.', maxPointsLabel: 'Game total points', hint: 'Example: if the game is to 19, enter 10 for one pair — the second pair becomes 9 automatically.', startTournament: 'Start tournament', tournamentTitle: '🎾 Tournament', finalTitle: '🏆 Tournament results', finalSubtitle: 'Final standings', place: 'Place', player: 'Player', points: 'Points', currentTable: 'Current standings', saveNext: 'Save round and continue', finishTournament: '🏁 Finish tournament and show results', nextTour: 'Next round', undoRound: '↩️ Undo round', restart: '🔄 Restart', newTournament: 'New tournament', namesTitle: 'Player names', playerName: 'Player', round: 'Round', gameTo: 'Game to', base: 'Base', rounds: 'rounds', resting: '😴 Resting', pair1: 'Pair 1', pair2: 'Pair 2', nothingToUndo: 'Nothing to undo yet', restartConfirm: 'Are you sure you want to start a new tournament? All current results will be reset.'
+  },
+  fr: {
+    langCode: 'fr', flag: '🇫🇷', appTitle: '🎾 Padel Counter', subtitle: 'Tournoi rapide, paires, manches et score', setupTitle: 'Configuration du tournoi', playersCount: 'Nombre de joueurs', playersCountHint: 'Minimum 4, maximum 20 joueurs.', maxPointsLabel: 'Total de points du match', hint: 'Exemple : si le match va à 19, entrez 10 pour une paire — la deuxième passe automatiquement à 9.', startTournament: 'Commencer le tournoi', tournamentTitle: '🎾 Tournoi', finalTitle: '🏆 Résultats du tournoi', finalSubtitle: 'Classement final', place: 'Place', player: 'Joueur', points: 'Points', currentTable: 'Classement actuel', saveNext: 'Enregistrer et continuer', finishTournament: '🏁 Terminer le tournoi', nextTour: 'Manche suivante', undoRound: '↩️ Annuler la manche', restart: '🔄 Recommencer', newTournament: 'Nouveau tournoi', namesTitle: 'Noms des joueurs', playerName: 'Joueur', round: 'Manche', gameTo: 'Jeu à', base: 'Base', rounds: 'manches', resting: '😴 Se repose', pair1: 'Paire 1', pair2: 'Paire 2', nothingToUndo: 'Rien à annuler', restartConfirm: 'Voulez-vous vraiment commencer un nouveau tournoi ? Tous les résultats seront réinitialisés.'
+  },
+  it: {
+    langCode: 'it', flag: '🇮🇹', appTitle: '🎾 Padel Counter', subtitle: 'Torneo rapido, coppie, round e punteggio', setupTitle: 'Impostazioni torneo', playersCount: 'Numero di giocatori', playersCountHint: 'Minimo 4, massimo 20 giocatori.', maxPointsLabel: 'Punti totali della partita', hint: 'Esempio: se si gioca a 19, inserisci 10 per una coppia — l’altra diventa automaticamente 9.', startTournament: 'Inizia torneo', tournamentTitle: '🎾 Torneo', finalTitle: '🏆 Risultati torneo', finalSubtitle: 'Classifica finale', place: 'Posizione', player: 'Giocatore', points: 'Punti', currentTable: 'Classifica attuale', saveNext: 'Salva round e continua', finishTournament: '🏁 Termina torneo', nextTour: 'Round successivo', undoRound: '↩️ Annulla round', restart: '🔄 Ricomincia', newTournament: 'Nuovo torneo', namesTitle: 'Nomi giocatori', playerName: 'Giocatore', round: 'Round', gameTo: 'Gioco a', base: 'Base', rounds: 'round', resting: '😴 Riposa', pair1: 'Coppia 1', pair2: 'Coppia 2', nothingToUndo: 'Niente da annullare', restartConfirm: 'Sei sicuro di voler iniziare un nuovo torneo? Tutti i risultati saranno azzerati.'
+  },
+  es: {
+    langCode: 'es', flag: '🇪🇸', appTitle: '🎾 Padel Counter', subtitle: 'Torneo rápido, parejas, rondas y puntuación', setupTitle: 'Configuración del torneo', playersCount: 'Número de jugadores', playersCountHint: 'Mínimo 4, máximo 20 jugadores.', maxPointsLabel: 'Puntos totales del partido', hint: 'Ejemplo: si se juega a 19, escribe 10 para una pareja — la otra será 9 automáticamente.', startTournament: 'Empezar torneo', tournamentTitle: '🎾 Torneo', finalTitle: '🏆 Resultados del torneo', finalSubtitle: 'Clasificación final', place: 'Puesto', player: 'Jugador', points: 'Puntos', currentTable: 'Clasificación actual', saveNext: 'Guardar ronda y continuar', finishTournament: '🏁 Finalizar torneo', nextTour: 'Siguiente ronda', undoRound: '↩️ Deshacer ronda', restart: '🔄 Reiniciar', newTournament: 'Nuevo torneo', namesTitle: 'Nombres de jugadores', playerName: 'Jugador', round: 'Ronda', gameTo: 'Juego a', base: 'Base', rounds: 'rondas', resting: '😴 Descansa', pair1: 'Pareja 1', pair2: 'Pareja 2', nothingToUndo: 'Nada que deshacer', restartConfirm: '¿Seguro que quieres empezar un nuevo torneo? Todos los resultados se reiniciarán.'
+  },
+  de: {
+    langCode: 'de', flag: '🇩🇪', appTitle: '🎾 Padel Counter', subtitle: 'Schnelles Turnier, Paare, Runden und Punkte', setupTitle: 'Turnier einrichten', playersCount: 'Anzahl der Spieler', playersCountHint: 'Mindestens 4, maximal 20 Spieler.', maxPointsLabel: 'Gesamtpunkte pro Spiel', hint: 'Beispiel: Spiel bis 19, gib 10 für ein Paar ein — das andere wird automatisch 9.', startTournament: 'Turnier starten', tournamentTitle: '🎾 Turnier', finalTitle: '🏆 Turnierergebnis', finalSubtitle: 'Endstand', place: 'Platz', player: 'Spieler', points: 'Punkte', currentTable: 'Aktuelle Tabelle', saveNext: 'Runde speichern und weiter', finishTournament: '🏁 Turnier beenden', nextTour: 'Nächste Runde', undoRound: '↩️ Runde rückgängig', restart: '🔄 Neu starten', newTournament: 'Neues Turnier', namesTitle: 'Spielernamen', playerName: 'Spieler', round: 'Runde', gameTo: 'Spiel bis', base: 'Basis', rounds: 'Runden', resting: '😴 Pausiert', pair1: 'Paar 1', pair2: 'Paar 2', nothingToUndo: 'Noch nichts rückgängig zu machen', restartConfirm: 'Möchtest du wirklich ein neues Turnier starten? Alle aktuellen Ergebnisse werden gelöscht.'
+  },
+  pt: {
+    langCode: 'pt', flag: '🇵🇹', appTitle: '🎾 Padel Counter', subtitle: 'Torneio rápido, duplas, rodadas e pontuação', setupTitle: 'Configuração do torneio', playersCount: 'Número de jogadores', playersCountHint: 'Mínimo 4, máximo 20 jogadores.', maxPointsLabel: 'Total de pontos do jogo', hint: 'Exemplo: se o jogo vai a 19, digite 10 para uma dupla — a outra vira 9 automaticamente.', startTournament: 'Iniciar torneio', tournamentTitle: '🎾 Torneio', finalTitle: '🏆 Resultados do torneio', finalSubtitle: 'Classificação final', place: 'Lugar', player: 'Jogador', points: 'Pontos', currentTable: 'Classificação atual', saveNext: 'Salvar rodada e continuar', finishTournament: '🏁 Finalizar torneio', nextTour: 'Próxima rodada', undoRound: '↩️ Desfazer rodada', restart: '🔄 Reiniciar', newTournament: 'Novo torneio', namesTitle: 'Nomes dos jogadores', playerName: 'Jogador', round: 'Rodada', gameTo: 'Jogo até', base: 'Base', rounds: 'rodadas', resting: '😴 Descansa', pair1: 'Dupla 1', pair2: 'Dupla 2', nothingToUndo: 'Nada para desfazer', restartConfirm: 'Tem certeza de que deseja iniciar um novo torneio? Todos os resultados serão zerados.'
+  }
+};
+
+let currentLang = 'ru';
 let players = [];
 let scores = {};
 let rounds = [];
 let currentRound = 0;
 let maxPoints = 19;
 let history = [];
+let baseRoundsLimit = 0;
+
+function t(key) {
+  return (translations[currentLang] && translations[currentLang][key]) || translations.ru[key] || key;
+}
+
+function toggleLanguageMenu() {
+  document.getElementById('languageMenu').classList.toggle('hidden');
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('padel_lang', lang);
+  document.documentElement.lang = translations[lang].langCode;
+  document.getElementById('languageFlag').textContent = t('flag');
+  document.getElementById('languageMenu').classList.add('hidden');
+  applyTranslations();
+  renderPlayerInputs();
+
+  if (!document.getElementById('tournamentScreen').classList.contains('hidden')) {
+    renderRound();
+    renderResults();
+  }
+
+  if (!document.getElementById('finalScreen').classList.contains('hidden')) {
+    renderFinalResults();
+  }
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+}
+
+function initLanguage() {
+  setLanguage(localStorage.getItem('padel_lang') || 'ru');
+}
 
 function getSavedNames() {
   const inputs = document.querySelectorAll('#playersInputs input');
   return Array.from(inputs).map(input => input.value);
 }
 
+function normalizePlayersCount(value) {
+  let count = parseInt(value, 10);
+  if (Number.isNaN(count)) return 4;
+  if (count < 4) return 4;
+  if (count > 20) return 20;
+  return count;
+}
+
+function handlePlayersCountInput() {
+  const input = document.getElementById('playersCount');
+  input.value = input.value.replace(/[^0-9]/g, '');
+
+  const rawValue = parseInt(input.value, 10);
+  if (!Number.isNaN(rawValue) && rawValue > 20) input.value = 20;
+
+  renderPlayerInputs();
+}
+
 function renderPlayerInputs() {
-  const count = parseInt(document.getElementById('playersCount').value);
+  const count = normalizePlayersCount(document.getElementById('playersCount').value);
   const savedNames = getSavedNames();
   const box = document.getElementById('playersInputs');
-  box.innerHTML = '<h2>Имена участников</h2>';
+  box.innerHTML = `<h2>${t('namesTitle')}</h2>`;
 
   for (let i = 1; i <= count; i++) {
-    const name = savedNames[i - 1] || `Игрок ${i}`;
+    const name = savedNames[i - 1] || `${t('playerName')} ${i}`;
     box.innerHTML += `
-      <label>Игрок ${i}</label>
-      <input type="text" id="player${i}" value="${name}" />
+      <label>${t('playerName')} ${i}</label>
+      <input type="text" id="player${i}" value="${escapeHtml(name)}" />
     `;
   }
+}
+
+function escapeHtml(text) {
+  return String(text)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
 }
 
 function shuffle(arr) {
@@ -305,10 +517,14 @@ function pairKey(a, b) {
   return [a, b].sort().join(' + ');
 }
 
-function generateSmartRound(roundIndex) {
+function generateSmartRound() {
   const playedPairs = new Set();
+  const restCount = {};
+
+  players.forEach(player => restCount[player] = 0);
 
   rounds.forEach(round => {
+    if (round.rest) restCount[round.rest]++;
     round.matches.forEach(match => {
       playedPairs.add(pairKey(match.team1[0], match.team1[1]));
       playedPairs.add(pairKey(match.team2[0], match.team2[1]));
@@ -316,14 +532,17 @@ function generateSmartRound(roundIndex) {
   });
 
   let bestRound = null;
-  let bestScore = -9999;
+  let bestScore = -999999;
 
-  for (let attempt = 0; attempt < 300; attempt++) {
+  for (let attempt = 0; attempt < 500; attempt++) {
     let list = shuffle(players);
     let rest = null;
 
     if (list.length % 4 !== 0) {
-      rest = list.pop();
+      list.sort((a, b) => restCount[a] - restCount[b]);
+      const candidates = list.slice(0, Math.min(4, list.length));
+      rest = candidates[Math.floor(Math.random() * candidates.length)];
+      list = shuffle(list.filter(player => player !== rest));
     }
 
     const matches = [];
@@ -335,13 +554,13 @@ function generateSmartRound(roundIndex) {
       const team1 = [list[i], list[i + 1]];
       const team2 = [list[i + 2], list[i + 3]];
 
-      if (!playedPairs.has(pairKey(team1[0], team1[1]))) score += 5;
-      if (!playedPairs.has(pairKey(team2[0], team2[1]))) score += 5;
+      if (!playedPairs.has(pairKey(team1[0], team1[1]))) score += 8;
+      if (!playedPairs.has(pairKey(team2[0], team2[1]))) score += 8;
 
       matches.push({ team1, team2 });
     }
 
-    if (rest) score += roundIndex % players.length === players.indexOf(rest) ? 1 : 0;
+    if (rest) score -= restCount[rest] * 10;
 
     if (score > bestScore) {
       bestScore = score;
@@ -354,12 +573,14 @@ function generateSmartRound(roundIndex) {
 
 function ensureRoundExists() {
   while (rounds.length <= currentRound) {
-    rounds.push(generateSmartRound(rounds.length));
+    rounds.push(generateSmartRound());
   }
 }
 
 function startTournament() {
-  const count = parseInt(document.getElementById('playersCount').value);
+  const playersCountInput = document.getElementById('playersCount');
+  const count = normalizePlayersCount(playersCountInput.value);
+  playersCountInput.value = count;
   maxPoints = parseInt(document.getElementById('maxPoints').value);
 
   players = [];
@@ -367,9 +588,10 @@ function startTournament() {
   rounds = [];
   currentRound = 0;
   history = [];
+  baseRoundsLimit = count;
 
   for (let i = 1; i <= count; i++) {
-    const name = document.getElementById(`player${i}`).value.trim() || `Игрок ${i}`;
+    const name = document.getElementById(`player${i}`).value.trim() || `${t('playerName')} ${i}`;
     players.push(name);
     scores[name] = 0;
   }
@@ -377,8 +599,10 @@ function startTournament() {
   ensureRoundExists();
 
   document.getElementById('setupScreen').classList.add('hidden');
+  document.getElementById('finalScreen').classList.add('hidden');
   document.getElementById('tournamentScreen').classList.remove('hidden');
 
+  applyTranslations();
   renderRound();
   renderResults();
 }
@@ -389,26 +613,31 @@ function renderRound() {
   const round = rounds[currentRound];
   const area = document.getElementById('matchArea');
   const restArea = document.getElementById('restArea');
+  const isFinishAvailable = currentRound + 1 >= baseRoundsLimit;
 
-  document.getElementById('roundTitle').innerHTML = `<strong>Раунд ${currentRound + 1}</strong>`;
-  document.getElementById('roundInfo').textContent = `Игра до ${maxPoints} очков`;
+  document.getElementById('roundTitle').innerHTML = `<strong>${t('round')} ${currentRound + 1}</strong>`;
+  document.getElementById('roundInfo').textContent = `${t('gameTo')} ${maxPoints} · ${t('base')}: ${baseRoundsLimit} ${t('rounds')}`;
 
-  restArea.innerHTML = round.rest ? `<div class="rest">😴 Отдыхает: ${round.rest}</div>` : '';
+  document.getElementById('mainNextButton').classList.toggle('hidden', isFinishAvailable);
+  document.getElementById('finishButton').classList.toggle('hidden', !isFinishAvailable);
+  document.getElementById('extraNextButton').classList.toggle('hidden', !isFinishAvailable);
+
+  restArea.innerHTML = round.rest ? `<div class="rest">${t('resting')}: ${escapeHtml(round.rest)}</div>` : '';
   area.innerHTML = '';
 
   round.matches.forEach((match, index) => {
     area.innerHTML += `
       <div class="match">
-        <div class="team">Пара 1: ${match.team1[0]} / ${match.team1[1]}</div>
-        <div class="team">Пара 2: ${match.team2[0]} / ${match.team2[1]}</div>
+        <div class="team">${t('pair1')}: ${escapeHtml(match.team1[0])} / ${escapeHtml(match.team1[1])}</div>
+        <div class="team">${t('pair2')}: ${escapeHtml(match.team2[0])} / ${escapeHtml(match.team2[1])}</div>
 
         <div class="score-row">
           <div class="score-card">
-            <span>Пара 1</span>
+            <span>${t('pair1')}</span>
             <input type="number" min="0" max="${maxPoints}" id="a_${index}" value="0" oninput="syncScores(${index}, 'a')" />
           </div>
           <div class="score-card">
-            <span>Пара 2</span>
+            <span>${t('pair2')}</span>
             <input type="number" min="0" max="${maxPoints}" id="b_${index}" value="${maxPoints}" oninput="syncScores(${index}, 'b')" />
           </div>
         </div>
@@ -434,7 +663,7 @@ function syncScores(index, source) {
   }
 }
 
-function nextRound() {
+function saveCurrentRoundScores() {
   const round = rounds[currentRound];
   const changes = [];
 
@@ -456,17 +685,30 @@ function nextRound() {
   });
 
   history.push({ roundIndex: currentRound, changes });
-  currentRound++;
+}
 
+function nextRound() {
+  saveCurrentRoundScores();
+  currentRound++;
   ensureRoundExists();
+  applyTranslations();
   renderResults();
   renderRound();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function finishTournament() {
+  saveCurrentRoundScores();
+  renderFinalResults();
+  document.getElementById('tournamentScreen').classList.add('hidden');
+  document.getElementById('finalScreen').classList.remove('hidden');
+  applyTranslations();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function undoRound() {
   if (history.length === 0) {
-    alert('Пока нечего отменять');
+    alert(t('nothingToUndo'));
     return;
   }
 
@@ -482,10 +724,14 @@ function undoRound() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function restartTournament() {
-  if (!confirm('Начать турнир заново? Все результаты обнулятся.')) return;
+function restartTournamentConfirm() {
+  if (!confirm(t('restartConfirm'))) return;
+  restartTournament();
+}
 
+function restartTournament() {
   document.getElementById('tournamentScreen').classList.add('hidden');
+  document.getElementById('finalScreen').classList.add('hidden');
   document.getElementById('setupScreen').classList.remove('hidden');
 
   players = [];
@@ -493,29 +739,57 @@ function restartTournament() {
   rounds = [];
   currentRound = 0;
   history = [];
+  baseRoundsLimit = 0;
+  applyTranslations();
+  renderPlayerInputs();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getSortedScores() {
+  return Object.entries(scores).sort((a, b) => b[1] - a[1]);
+}
+
+function scoreClass(score) {
+  if (score > 0) return 'positive';
+  if (score < 0) return 'negative';
+  return 'neutral';
 }
 
 function renderResults() {
   const table = document.getElementById('resultsTable');
   table.innerHTML = '';
 
-  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
-
-  sorted.forEach(([name, score]) => {
-    let cls = 'neutral';
-    if (score > 0) cls = 'positive';
-    if (score < 0) cls = 'negative';
-
+  getSortedScores().forEach(([name, score]) => {
     table.innerHTML += `
       <tr>
-        <td>${name}</td>
-        <td class="${cls}">${score > 0 ? '+' + score : score}</td>
+        <td>${escapeHtml(name)}</td>
+        <td class="${scoreClass(score)}">${score > 0 ? '+' + score : score}</td>
       </tr>
     `;
   });
 }
 
-renderPlayerInputs();
+function renderFinalResults() {
+  const table = document.getElementById('finalTable');
+  table.innerHTML = '';
+
+  const medals = ['🥇', '🥈', '🥉'];
+
+  getSortedScores().forEach(([name, score], index) => {
+    const place = index < 3 ? medals[index] : index + 1;
+    const medalClass = index < 3 ? 'medal-row' : '';
+
+    table.innerHTML += `
+      <tr class="${medalClass}">
+        <td>${place}</td>
+        <td>${escapeHtml(name)}</td>
+        <td class="${scoreClass(score)}">${score > 0 ? '+' + score : score}</td>
+      </tr>
+    `;
+  });
+}
+
+initLanguage();
 </script>
 </body>
 </html>
